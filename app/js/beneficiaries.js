@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         beneficiariesList.innerHTML = '';
         
         if (res.success && Array.isArray(res.data)) {
-            const list = res.data.filter(b => b.workspaceId == workspaceId);
+            const list = res.data; // Ya viene filtrado por la API
             if (list.length === 0) {
                 emptyState.classList.remove('hidden');
             } else {

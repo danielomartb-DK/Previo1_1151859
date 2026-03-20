@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         categoriesList.innerHTML = '';
         
         if (res.success && Array.isArray(res.data)) {
-            const workspaceCats = res.data.filter(c => c.workspaceId == workspaceId);
+            const workspaceCats = res.data; // Ya viene filtrado por la API
             
             if (workspaceCats.length === 0) {
                 emptyState.classList.remove('hidden');

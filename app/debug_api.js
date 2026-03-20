@@ -7,17 +7,21 @@ async function test() {
         const data = await loginRes.json();
         const token = data.data.token;
         const workspaceId = data.data.workspaces[0].id;
-        const opts = { method: 'GET', headers: {'Authorization': 'Bearer ' + token} };
         
-        const cRes = await fetch("https://finanzas-api.ubunifusoft.digital/api/categorias?workspaceId=" + workspaceId, opts);
-        const cats = await cRes.json();
-        console.log("Categorias Query Param:", JSON.stringify(cats, null, 2));
+        const opts = { method: 'POST', headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token} };
+        
+        await fetch("https://finanzas-api.ubunifusoft.digital/api/categorias", { ...opts, body: JSON.stringify({nombre: "🍔 Comida", tipo: "GASTO", workspaceId: workspaceId}) });
+        await fetch("https://finanzas-api.ubunifusoft.digital/api/beneficiarios", { ...opts, body: JSON.stringify({nombre: "El Tio Sam", workspaceId: workspaceId}) });
+        
+        const getOpts = { method: 'GET', headers: {'Authorization': 'Bearer ' + token} };
+        
+        const bRes = await fetch("https://finanzas-api.ubunifusoft.digital/api/beneficiarios?workspaceId=" + workspaceId, getOpts);
+        const bData = await bRes.json();
+        console.log("Beneficiarios FULL:", JSON.stringify(bData.data, null, 2));
 
-        const bRes = await fetch("https://finanzas-api.ubunifusoft.digital/api/beneficiarios?workspaceId=" + workspaceId, opts);
-        console.log("Beneficiarios:", (await bRes.json()).status);
-        
-        const tRes = await fetch("https://finanzas-api.ubunifusoft.digital/api/transactions?workspaceId=" + workspaceId, opts);
-        console.log("Transactions:", (await tRes.json()).status);
+        const cRes = await fetch("https://finanzas-api.ubunifusoft.digital/api/categorias?workspaceId=" + workspaceId, getOpts);
+        const cData = await cRes.json();
+        console.log("Categorias FULL:", JSON.stringify(cData.data, null, 2));
     } catch (err) { console.log(err) }
  }
  test();

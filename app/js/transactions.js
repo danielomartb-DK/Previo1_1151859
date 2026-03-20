@@ -100,9 +100,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             api.get('/transactions?workspaceId=' + workspaceId)
         ]);
 
-        if (catRes.success) categoriesList = catRes.data.filter(c => c.workspaceId == workspaceId);
-        if (benRes.success) beneficiariesList = benRes.data.filter(b => b.workspaceId == workspaceId);
-        if (transRes.success) allTransactions = transRes.data.filter(t => t.workspaceId == workspaceId);
+        if (catRes.success) categoriesList = catRes.data;
+        if (benRes.success) beneficiariesList = benRes.data;
+        if (transRes.success) allTransactions = transRes.data;
 
         if (categoriesList.length === 0) {
             selCategory.innerHTML = '<option value="">No hay categorías</option>';

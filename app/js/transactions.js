@@ -13,19 +13,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const pageAlert = document.getElementById('page-alert');
     const modalAlert = document.getElementById('modal-alert');
     
-    // Modal
     const modal = document.getElementById('transaction-modal');
     const btnOpenModal = document.getElementById('btn-open-modal');
     const btnCloseModal = document.getElementById('btn-close-modal');
     const form = document.getElementById('transaction-form');
     
-    // Filter Elements
     const filterCategorySelect = document.getElementById('filter-category');
     const filterDateInput = document.getElementById('filter-date');
     const btnFilter = document.getElementById('btn-filter');
     const btnClearFilter = document.getElementById('btn-clear-filter');
 
-    // Inputs Modal
     const selCategory = document.getElementById('t-category');
     const selBeneficiary = document.getElementById('t-beneficiary');
     const inputAmount = document.getElementById('t-amount');
@@ -33,10 +30,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const inputDesc = document.getElementById('t-desc');
     const btnSubmit = document.getElementById('btn-submit');
 
-    // Estado local
     let categoriesList = [];
     let beneficiariesList = [];
     let allTransactions = [];
+    let defaultCuentaId = null;
 
     function showAlert(msg, isSuccess = true, target = pageAlert) {
         target.textContent = msg;
@@ -94,15 +91,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function loadDependenciesAndData() {
-        const [catRes, benRes, transRes] = await Promise.all([
+        const [catRes, benRes, transRes, cueRes] = await Promise.all([
             api.get('/categorias?workspaceId=' + workspaceId),
             api.get('/beneficiarios?workspaceId=' + workspaceId),
-            api.get('/transactions?workspaceId=' + workspaceId)
+            api.get('/transactions?workspaceId=' + workspaceId),
+            api.get('/cuentas?workspaceId=' + workspaceId)
         ]);
 
         if (catRes.success) categoriesList = catRes.data;
         if (benRes.success) beneficiariesList = benRes.data;
         if (transRes.success) allTransactions = transRes.data;
+
+        let cuentasData = cueRes.success && Array.isArray(cueRes.data) ? cueRes.data : [];
+        if (cuentasData.length === 0) {
+            const postCuenta = await api.post('/cuentas', {
+                nombre: "Billetera Principal",
+                tipo: "EFECTIVO", 
+                saldoInicial: 0,
+                workspaceId: Number(workspaceId)
+            });
+            if (postCuenta.success && postCuenta.data) {
+                defaultCuentaId = postCuenta.data.id;
+            }
+        } else {
+            defaultCuentaId = cuentasData[0].id;
+        }
 
         if (categoriesList.length === 0) {
             selCategory.innerHTML = '<option value="">No hay categorías</option>';
@@ -134,7 +147,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
         modal.classList.remove('hidden');
-        inputDate.valueAsDate = new Date(); // default hoy
+        inputDate.valueAsDate = new Date(); 
     });
 
     btnCloseModal.addEventListener('click', () => {
@@ -152,8 +165,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const fecha = inputDate.value;
         const descripcion = inputDesc.value.trim();
 
-        if (monto <= 0 || !categoriaId || !beneficiarioId) {
-            showAlert('Por favor llena todos los campos correctamente.', false, modalAlert);
+        if (monto <= 0 || !categoriaId || !beneficiarioId || !defaultCuentaId) {
+            showAlert('Por favor llena todos los campos o espera a que se inicie tu billetera.', false, modalAlert);
             return;
         }
 
@@ -162,10 +175,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const originalText = btnSubmit.textContent;
         btnSubmit.disabled = true;
-        btnSubmit.textContent = 'Trasnferiendo...';
+        btnSubmit.textContent = 'Transfiriendo...';
 
-        const payload = { monto, categoriaId, beneficiarioId, tipo, fecha, descripcion, workspaceId: Number(workspaceId) };
-        const res = await api.post('/transactions', { ...payload, medioPago: 'EFECTIVO' });
+        const payload = { monto, categoriaId, beneficiarioId, tipo, fecha, descripcion, workspaceId: Number(workspaceId), cuentaId: defaultCuentaId, medioPago: 'EFECTIVO' };
+        const res = await api.post('/transactions', payload);
 
         btnSubmit.disabled = false;
         btnSubmit.textContent = originalText;

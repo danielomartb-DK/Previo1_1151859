@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let categoriesList = [];
     let beneficiariesList = [];
     let allTransactions = [];
-    let defaultCuentaId = null;
+    let defaultTarjetaId = null;
 
     function showAlert(msg, isSuccess = true, target = pageAlert) {
         target.textContent = msg;
@@ -91,30 +91,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function loadDependenciesAndData() {
-        const [catRes, benRes, transRes, cueRes] = await Promise.all([
+        const [catRes, benRes, transRes, tarRes] = await Promise.all([
             api.get('/categorias?workspaceId=' + workspaceId),
             api.get('/beneficiarios?workspaceId=' + workspaceId),
             api.get('/transactions?workspaceId=' + workspaceId),
-            api.get('/cuentas?workspaceId=' + workspaceId)
+            api.get('/credit-cards?workspaceId=' + workspaceId)
         ]);
 
         if (catRes.success) categoriesList = catRes.data;
         if (benRes.success) beneficiariesList = benRes.data;
         if (transRes.success) allTransactions = transRes.data;
 
-        let cuentasData = cueRes.success && Array.isArray(cueRes.data) ? cueRes.data : [];
-        if (cuentasData.length === 0) {
-            const postCuenta = await api.post('/cuentas', {
-                nombre: "Billetera Principal",
-                tipo: "EFECTIVO", 
-                saldoInicial: 0,
+        let tarjetasData = tarRes.success && Array.isArray(tarRes.data) ? tarRes.data : [];
+        if (tarjetasData.length === 0) {
+            const postTarjeta = await api.post('/credit-cards', {
+                nombre: "Billetera Virtual Principal",
+                bancoEmisor: "NexusBank",
+                ultimosCuatro: "0000",
+                limiteCredito: 999999999,
+                colorHex: "#3B82F6",
                 workspaceId: Number(workspaceId)
             });
-            if (postCuenta.success && postCuenta.data) {
-                defaultCuentaId = postCuenta.data.id;
+            if (postTarjeta.success && postTarjeta.data) {
+                defaultTarjetaId = postTarjeta.data.id;
             }
         } else {
-            defaultCuentaId = cuentasData[0].id;
+            defaultTarjetaId = tarjetasData[0].id;
         }
 
         if (categoriesList.length === 0) {
@@ -165,8 +167,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const fecha = inputDate.value;
         const descripcion = inputDesc.value.trim();
 
-        if (monto <= 0 || !categoriaId || !beneficiarioId || !defaultCuentaId) {
-            showAlert('Por favor llena todos los campos o espera a que se inicie tu billetera.', false, modalAlert);
+        if (monto <= 0 || !categoriaId || !beneficiarioId || !defaultTarjetaId) {
+            showAlert('Por favor llena todos los campos o espera a que se inicie tu billetera segura.', false, modalAlert);
             return;
         }
 
@@ -177,7 +179,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         btnSubmit.disabled = true;
         btnSubmit.textContent = 'Transfiriendo...';
 
-        const payload = { monto, categoriaId, beneficiarioId, tipo, fecha, descripcion, workspaceId: Number(workspaceId), cuentaId: defaultCuentaId, medioPago: 'EFECTIVO' };
+        const payload = { monto, categoriaId, beneficiarioId, tipo, fecha, descripcion, workspaceId: Number(workspaceId), tarjetaCreditoId: defaultTarjetaId, medioPago: 'TARJETA' };
         const res = await api.post('/transactions', payload);
 
         btnSubmit.disabled = false;

@@ -3,56 +3,53 @@ import { api } from './api.js';
 import { ensureWorkspace } from './workspace.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Verificar o Crear Workspace
+    // 1. Verificar Workspace
     const workspaceId = await ensureWorkspace();
-    if (!workspaceId) return; // Se pausará aquí si el overlay está mostrándose
+    if (!workspaceId) return; // Se pausará aquí si el overlay está mostrándose o redirige
 
-    // 2. Traer transacciones
-    const res = await api.get('/transactions');
+    // Logout
+    const logoutBtns = document.querySelectorAll('[data-action="logout"]');
+    logoutBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        });
+    });
+
+    // 2. Traer transacciones ya filtradas por el backend
+    const res = await api.get('/transactions?workspaceId=' + workspaceId);
+    
     if (res.success && Array.isArray(res.data)) {
-        calcularResumen(res.data, workspaceId);
+        calcularResumen(res.data);
     } else {
         console.warn('No se pudieron obtener transacciones o está vacío.');
-        calcularResumen([], workspaceId);
+        calcularResumen([]);
     }
 });
 
-function calcularResumen(transacciones, workspaceId) {
-    // Filtrar por si la API no filtra por workspaceId automáticamente
-    const tWorkspace = transacciones.filter(t => t.workspaceId === workspaceId);
-
+function calcularResumen(transacciones) {
     let totalIngresos = 0;
     let totalGastos = 0;
 
-    tWorkspace.forEach(t => {
-        // En base a los requerimientos: INGRESO o GASTO (MAYÚSCULA)
-        if (t.type === 'INGRESO') {
-            totalIngresos += Number(t.amount);
-        } else if (t.type === 'GASTO') {
-            totalGastos += Number(t.amount);
+    transacciones.forEach(t => {
+        // En la base de datos es 'tipo' y 'monto'
+        if (t.tipo === 'INGRESO') {
+            totalIngresos += Number(t.monto);
+        } else if (t.tipo === 'GASTO') {
+            totalGastos += Number(t.monto);
         }
     });
 
     const balance = totalIngresos - totalGastos;
 
     // Actualizar DOM
-    document.getElementById('stat-income').textContent = `$${totalIngresos.toFixed(2)}`;
-    document.getElementById('stat-expense').textContent = `$${totalGastos.toFixed(2)}`;
-    document.getElementById('stat-balance').textContent = `$${balance.toFixed(2)}`;
+    // Si queremos un formato bonito de moneda con comas:
+    const formatter = new Intl.NumberFormat('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    });
 
-    // Si tuviéramos una librería como Chart.js, aquí dibujaríamos las gráficas
-    // Dado que el requerimiento es "JavaScript puro", simularemos la agrupación por consola:
-    agruparPorCategoria(tWorkspace);
-}
-
-function agruparPorCategoria(transacciones) {
-    const agrupado = transacciones.reduce((acc, obj) => {
-        const key = obj.categoryId || 'Sin Categoría';
-        if (!acc[key]) {
-            acc[key] = 0;
-        }
-        acc[key] += Number(obj.amount);
-        return acc;
-    }, {});
-    console.log('[DASHBOARD] Agrupación por categorías:', agrupado);
+    document.getElementById('stat-income').textContent = formatter.format(totalIngresos);
+    document.getElementById('stat-expense').textContent = formatter.format(totalGastos);
+    document.getElementById('stat-balance').textContent = formatter.format(balance);
 }

@@ -27,24 +27,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-function animateValue(elementId, endValue, duration, prefix = "$") {
+function animateValue(elementId, endValue, duration, prefix = "+") {
     const obj = document.getElementById(elementId);
+    const formatter = new Intl.NumberFormat('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     let startTimestamp = null;
     const step = (timestamp) => {
         if (!startTimestamp) startTimestamp = timestamp;
-        // Easing function outExpo
         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
         const easeOutProgress = 1 - Math.pow(1 - progress, 3);
         const currentVal = easeOutProgress * endValue;
-        
-        // Tabular nums para que no salte locamente al animarse
-        obj.innerHTML = `${prefix}${Number(currentVal).toFixed(2)}`;
-        obj.classList.add('tabular-nums'); // Inyectar clase dinámicamente
-        
+        obj.innerHTML = `${prefix}$${formatter.format(currentVal)}`;
+        obj.classList.add('tabular-nums');
         if (progress < 1) {
             window.requestAnimationFrame(step);
         } else {
-            obj.innerHTML = `${prefix}${Number(endValue).toFixed(2)}`;
+            obj.innerHTML = `${prefix}$${formatter.format(endValue)}`;
         }
     };
     window.requestAnimationFrame(step);

@@ -28,15 +28,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function renderCategoryRow(cat) {
         const isIngreso = cat.tipo === 'INGRESO';
-        const colorCls = isIngreso ? 'bg-secondary' : 'bg-tertiary';
+        const colorCls = isIngreso ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' : 'text-textmuted bg-elevated/50 border-bordercolor';
         
         return `
-        <tr class="hover:bg-surface-container-low/50 transition-colors group">
-            <td class="px-8 py-5">
-                <div class="font-semibold text-on-surface">${cat.nombre}</div>
+        <tr class="hover:bg-elevated/40 transition-colors group">
+            <td class="px-6 py-4">
+                <div class="font-medium text-white text-sm">${cat.nombre}</div>
             </td>
-            <td class="px-8 py-5">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black tracking-widest ${colorCls} text-white">
+            <td class="px-6 py-4">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-semibold tracking-widest uppercase border ${colorCls}">
                     ${cat.tipo}
                 </span>
             </td>

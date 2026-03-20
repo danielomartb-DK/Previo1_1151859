@@ -60,23 +60,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         const isIngreso = type === 'INGRESO';
         
         const typeEl = isIngreso 
-            ? `<span class="flex items-center gap-2 text-secondary font-semibold text-xs py-1 px-3 bg-secondary-container/30 rounded-full w-fit"><span class="material-symbols-outlined text-sm">arrow_downward</span>Ingreso</span>`
-            : `<span class="flex items-center gap-2 text-tertiary font-semibold text-xs py-1 px-3 bg-tertiary-container/10 rounded-full w-fit"><span class="material-symbols-outlined text-sm">arrow_upward</span>Gasto</span>`;
+            ? `<span class="flex items-center gap-1.5 text-emerald-400 font-medium text-xs"><span class="material-symbols-outlined text-[16px]">arrow_downward</span>Ingreso</span>`
+            : `<span class="flex items-center gap-1.5 text-textmuted font-medium text-xs"><span class="material-symbols-outlined text-[16px]">arrow_upward</span>Gasto</span>`;
             
         const amountEl = isIngreso
-            ? `<span class="text-base font-bold text-secondary font-headline">+$${Number(t.monto).toFixed(2)}</span>`
-            : `<span class="text-base font-bold text-tertiary font-headline">-$${Number(t.monto).toFixed(2)}</span>`;
+            ? `<span class="text-[15px] font-semibold text-emerald-400 tracking-tight">+$${Number(t.monto).toFixed(2)}</span>`
+            : `<span class="text-[15px] font-semibold text-white tracking-tight">-$${Number(t.monto).toFixed(2)}</span>`;
 
         return `
-        <tr class="hover:bg-surface-container-low transition-colors group">
-            <td class="px-6 py-5">${typeEl}</td>
-            <td class="px-6 py-5">
-                <p class="font-bold text-on-surface">${benName}</p>
-                <p class="text-xs text-on-surface-variant line-clamp-1">${t.descripcion || ''}</p>
+        <tr class="hover:bg-elevated/40 transition-colors group">
+            <td class="px-6 py-4">${typeEl}</td>
+            <td class="px-6 py-4">
+                <p class="font-semibold text-sm text-white">${benName}</p>
+                <p class="text-xs text-textmuted line-clamp-1 mt-0.5">${t.descripcion || ''}</p>
             </td>
-            <td class="px-6 py-5"><span class="text-sm font-medium text-on-surface-variant">${catName}</span></td>
-            <td class="px-6 py-5"><span class="text-sm text-on-surface-variant">${formatDate(t.fecha)}</span></td>
-            <td class="px-6 py-5 text-right">${amountEl}</td>
+            <td class="px-6 py-4"><span class="text-xs font-medium text-textmuted bg-elevated/50 px-2.5 py-1 rounded-md border border-bordercolor">${catName}</span></td>
+            <td class="px-6 py-4"><span class="text-xs text-textmuted">${formatDate(t.fecha)}</span></td>
+            <td class="px-6 py-4 text-right">${amountEl}</td>
         </tr>`;
     }
 

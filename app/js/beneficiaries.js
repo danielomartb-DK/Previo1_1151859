@@ -33,16 +33,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                 emptyState.classList.add('hidden');
                 list.forEach(ben => {
                     const div = document.createElement('div');
-                    div.className = "p-5 border border-bordercolor/50 rounded-xl hover:border-primary/50 transition-colors flex items-center justify-between";
+                    div.className = "p-5 glass-card hover:border-primary/50 transition-colors flex items-center justify-between group";
                     div.innerHTML = `
                         <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-textmuted">
-                                <span class="material-symbols-outlined">person</span>
+                            <div class="w-10 h-10 rounded-full bg-elevated flex items-center justify-center text-textmuted group-hover:text-primary group-hover:bg-primary/10 transition-colors border border-bordercolor">
+                                <span class="material-symbols-outlined text-xl">person</span>
                             </div>
                             <div>
-                                <h4 class="font-poppins font-bold text-white text-sm">${ben.nombre}</h4>
+                                <h4 class="font-poppins font-medium text-white text-sm">${ben.nombre}</h4>
+                                <p class="text-[10px] text-textmuted uppercase tracking-widest mt-0.5">Entidad Verificada</p>
                             </div>
                         </div>
+                        <button class="w-8 h-8 rounded-full flex items-center justify-center text-textmuted hover:text-white opacity-0 group-hover:opacity-100 transition-all">
+                            <span class="material-symbols-outlined text-sm">more_vert</span>
+                        </button>
                     `;
                     beneficiariesList.appendChild(div);
                 });

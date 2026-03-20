@@ -142,37 +142,56 @@
             </div>
         </section>
 
-        <!-- Placeholders -->
+        <!-- Gráficas funcionales con Chart.js -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            <div class="glass-card p-10 h-[320px] flex flex-col items-center justify-center text-center">
-                <div class="relative w-24 h-24 mb-6">
-                    <svg viewBox="0 0 100 100" class="w-full h-full transform -rotate-90 text-elevated">
-                        <circle cx="50" cy="50" r="40" fill="transparent" stroke="currentColor" stroke-width="8" />
-                        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#3B82F6" stroke-width="8" stroke-dasharray="160 250" />
-                        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#10B981" stroke-width="8" stroke-dasharray="60 250" stroke-dashoffset="-160" />
-                    </svg>
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <span class="material-symbols-outlined text-primary text-xl">pie_chart</span>
+
+            <!-- Donut: Distribución de gastos por categoría -->
+            <div class="glass-card p-6">
+                <div class="flex items-center justify-between mb-5">
+                    <div>
+                        <h3 class="text-sm font-poppins font-semibold text-white">Distribución por Categoría</h3>
+                        <p class="text-[11px] text-textmuted mt-0.5">Desglose de gastos e ingresos</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined text-lg">donut_large</span>
                     </div>
                 </div>
-                <h3 class="text-base font-semibold text-white mb-2">Distribución de Fondos</h3>
-                <p class="text-textmuted text-sm max-w-xs">Tus reportes detallados y gráficas circulares se habilitarán próximamente.</p>
-            </div>
-            <div class="glass-card p-10 h-[320px] flex flex-col items-center justify-center text-center">
-                <div class="flex items-end justify-center gap-3 h-24 mb-6">
-                    <div class="w-6 bg-emerald-500/80 rounded h-full"></div>
-                    <div class="w-6 bg-red-400/80 rounded h-1/3"></div>
-                    <div class="w-6 bg-emerald-500/80 rounded h-4/5"></div>
-                    <div class="w-6 bg-red-400/80 rounded h-1/2"></div>
+                <div class="relative flex items-center justify-center" style="height:230px">
+                    <canvas id="chart-donut"></canvas>
+                    <div id="donut-empty" class="hidden absolute inset-0 flex flex-col items-center justify-center text-center">
+                        <span class="material-symbols-outlined text-3xl text-textmuted mb-2">pie_chart</span>
+                        <p class="text-xs text-textmuted">Sin transacciones aún</p>
+                    </div>
                 </div>
-                <h3 class="text-base font-semibold text-white mb-2">Flujo de Caja</h3>
-                <p class="text-textmuted text-sm max-w-xs">Estadísticas comparativas de tu actividad financiera mes a mes.</p>
+                <div id="donut-legend" class="mt-4 flex flex-wrap gap-x-4 gap-y-2"></div>
             </div>
+
+            <!-- Barras: Ingreso vs Gasto por mes -->
+            <div class="glass-card p-6">
+                <div class="flex items-center justify-between mb-5">
+                    <div>
+                        <h3 class="text-sm font-poppins font-semibold text-white">Flujo de Caja</h3>
+                        <p class="text-[11px] text-textmuted mt-0.5">Ingresos vs Gastos por mes</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                        <span class="material-symbols-outlined text-lg">bar_chart</span>
+                    </div>
+                </div>
+                <div style="height:230px">
+                    <canvas id="chart-bar"></canvas>
+                </div>
+                <div id="bar-empty" class="hidden flex-col items-center justify-center text-center py-12">
+                    <span class="material-symbols-outlined text-3xl text-textmuted mb-2">bar_chart</span>
+                    <p class="text-xs text-textmuted">Sin datos suficientes</p>
+                </div>
+            </div>
+
         </section>
         
     </div>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 <script type="module" src="js/workspace.js"></script>
 <script type="module" src="js/dashboard.js"></script>
 <script src="js/mobile-menu.js"></script><script src="js/cursor.js"></script></body>

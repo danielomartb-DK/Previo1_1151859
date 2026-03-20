@@ -91,19 +91,25 @@ document.addEventListener('DOMContentLoaded', () => {
             const passwordConfirm = document.getElementById('register-password-confirm').value.trim();
             const nombre = document.getElementById('register-name').value.trim();
 
-            // Validación de correo basica
-            if (!email.includes('@')) {
-                showAlert('Por favor ingresa un correo electrónico válido.');
+            if (!nombre || !email || !password || !passwordConfirm) {
+                showAlert('Por favor, completa todos los campos requeridos.');
                 return;
             }
 
-            if (!email || !password || !passwordConfirm || !nombre) {
-                showAlert('Todos los campos son obligatorios.');
+            // Validación de formato de correo básico
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showAlert('El formato del correo electrónico no es válido.');
+                return;
+            }
+
+            if (password.length < 6) {
+                showAlert('Por seguridad, la contraseña debe tener al menos 6 caracteres.');
                 return;
             }
 
             if (password !== passwordConfirm) {
-                showAlert('Las contraseñas no coinciden.');
+                showAlert('Las contraseñas ingresadas no coinciden.');
                 return;
             }
 

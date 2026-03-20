@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Categories Management - Financial Architect</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error-container": "#93000a",
+              "tertiary": "#851800",
+              "outline": "#737685",
+              "secondary-container": "#82f9be",
+              "primary-fixed": "#dae2ff",
+              "error-container": "#ffdad6",
+              "on-tertiary-container": "#ffc6b9",
+              "surface-dim": "#d9dadc",
+              "tertiary-fixed": "#ffdad2",
+              "on-secondary-container": "#00734c",
+              "on-secondary": "#ffffff",
+              "tertiary-fixed-dim": "#ffb4a3",
+              "surface-container-high": "#e7e8ea",
+              "on-primary-container": "#c4d2ff",
+              "on-primary": "#ffffff",
+              "secondary-fixed": "#82f9be",
+              "on-tertiary": "#ffffff",
+              "surface-container": "#edeef0",
+              "surface-tint": "#0c56d0",
+              "on-tertiary-fixed": "#3d0600",
+              "on-primary-fixed-variant": "#0040a2",
+              "inverse-surface": "#2e3132",
+              "surface-bright": "#f8f9fb",
+              "surface-variant": "#e1e2e4",
+              "inverse-primary": "#b2c5ff",
+              "surface-container-lowest": "#ffffff",
+              "background": "#f8f9fb",
+              "on-background": "#191c1e",
+              "on-surface": "#191c1e",
+              "primary-fixed-dim": "#b2c5ff",
+              "surface-container-highest": "#e1e2e4",
+              "on-secondary-fixed-variant": "#005235",
+              "on-tertiary-fixed-variant": "#8b1a00",
+              "outline-variant": "#c3c6d6",
+              "primary": "#003d9b",
+              "secondary-fixed-dim": "#65dca4",
+              "on-surface-variant": "#434654",
+              "on-primary-fixed": "#001848",
+              "inverse-on-surface": "#f0f1f3",
+              "surface-container-low": "#f3f4f6",
+              "secondary": "#006c47",
+              "primary-container": "#0052cc",
+              "tertiary-container": "#b02300",
+              "on-secondary-fixed": "#002113",
+              "surface": "#f8f9fb",
+              "on-error": "#ffffff",
+              "error": "#ba1a1a"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      h1, h2, h3 {
+        font-family: 'Manrope', sans-serif;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- SideNavBar (Execution from JSON) -->
+<aside class="fixed left-0 h-full w-64 bg-slate-50 dark:bg-slate-950 flex flex-col py-8 border-r border-slate-200/50 dark:border-slate-800/50 z-40 hidden md:flex">
+<div class="px-6 mb-10">
+<h1 class="text-lg font-black text-blue-900 dark:text-blue-200">The Curator</h1>
+<p class="text-xs text-on-surface-variant/70 uppercase tracking-widest font-bold">Premium Finance</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 py-3 text-slate-600 dark:text-slate-400 pl-5 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-manrope text-sm font-medium">Dashboard</span>
+</a>
+<!-- Active Navigation State for Categories -->
+<a class="flex items-center gap-3 py-3 text-blue-700 dark:text-blue-400 border-l-4 border-blue-700 dark:border-blue-400 pl-4 bg-blue-50/50 dark:bg-blue-900/20 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+<span class="font-manrope text-sm font-medium">Categories</span>
+</a>
+<a class="flex items-center gap-3 py-3 text-slate-600 dark:text-slate-400 pl-5 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-manrope text-sm font-medium">Beneficiaries</span>
+</a>
+<a class="flex items-center gap-3 py-3 text-slate-600 dark:text-slate-400 pl-5 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="swap_horiz">swap_horiz</span>
+<span class="font-manrope text-sm font-medium">Movements</span>
+</a>
+<a class="flex items-center gap-3 py-3 text-slate-600 dark:text-slate-400 pl-5 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="workspaces">workspaces</span>
+<span class="font-manrope text-sm font-medium">Workspace</span>
+</a>
+</nav>
+<div class="px-5 mt-auto space-y-1">
+<a class="flex items-center gap-3 py-3 text-slate-600 dark:text-slate-400 pl-5 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-manrope text-sm font-medium">Settings</span>
+</a>
+<a class="flex items-center gap-3 py-3 text-slate-600 dark:text-slate-400 pl-5 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-manrope text-sm font-medium">Help</span>
+</a>
+</div>
+</aside>
+<!-- Main Wrapper -->
+<main class="md:ml-64 min-h-screen flex flex-col">
+<!-- TopNavBar (Execution from JSON) -->
+<header class="fixed top-0 right-0 left-0 md:left-64 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm dark:shadow-none px-6 py-3 flex justify-between items-center w-full">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative max-w-md w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-on-surface-variant" placeholder="Search categories..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary-fixed overflow-hidden border border-outline-variant/30">
+<img alt="User profile" class="h-full w-full object-cover" data-alt="Professional male user profile portrait avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFBSqCx3Tt-fnTZVXFc5RLLWYS4PcpYEvyG7nCwwyPRAIQSXCjXklpFblbbnuhyA0qrEh4keAKtFNdowGfhZQt56pMwKUhyzdenkY5VpQXBG5-PlLBiTeAPcKakdLkhEhf8GeHJAgGBPVw42yY2JxhUDWsN-anT89TfTIo7ny-DH9R3gBcpqq5nSu_9h-tbbx4faMzMkAufKM-xfrj2YGS9vZG7myNbYZDwgXyHpM98mWfll6c7fwk55wicS_0z-97e2NZlk8ejYU"/>
+</div>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+</button>
+</div>
+</header>
+<!-- Page Content -->
+<div class="mt-16 p-8 lg:p-12 space-y-10 max-w-6xl mx-auto w-full">
+<!-- Header Section with Bento Elements -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="space-y-2">
+<span class="text-primary font-bold text-sm tracking-widest uppercase">Management</span>
+<h2 class="text-4xl font-extrabold tracking-tight text-on-surface">Categories</h2>
+<p class="text-on-surface-variant max-w-lg">Organize your financial ecosystem with precision. Define income streams and expense buckets to maintain clarity.</p>
+</div>
+<div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                        + Crear Categoría
+                    </button>
+</div>
+</section>
+<!-- Stats/Overview Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-xl border-none shadow-sm flex flex-col justify-between h-32">
+<span class="text-on-surface-variant text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="trending_up">trending_up</span> Total Ingresos
+                    </span>
+<h3 class="text-2xl font-bold text-on-surface">12 Categories</h3>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border-none shadow-sm flex flex-col justify-between h-32">
+<span class="text-on-surface-variant text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary" data-icon="trending_down">trending_down</span> Total Gastos
+                    </span>
+<h3 class="text-2xl font-bold text-on-surface">28 Categories</h3>
+</div>
+<div class="bg-primary/5 p-6 rounded-xl border border-primary/10 flex flex-col justify-between h-32">
+<span class="text-primary text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="insights">insights</span> Tracking Status
+                    </span>
+<h3 class="text-2xl font-bold text-primary">Fully Cataloged</h3>
+</div>
+</div>
+<!-- Category List Table Area -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="px-8 py-6 flex items-center justify-between">
+<h3 class="font-bold text-lg text-on-surface">Active Directories</h3>
+<div class="flex gap-2">
+<button class="px-4 py-1.5 rounded-full text-xs font-bold bg-secondary/10 text-secondary">INGRESO</button>
+<button class="px-4 py-1.5 rounded-full text-xs font-bold bg-tertiary/10 text-tertiary">GASTO</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant text-xs font-bold uppercase tracking-wider">
+<th class="px-8 py-4">Name</th>
+<th class="px-8 py-4">Type</th>
+<th class="px-8 py-4 text-right">Activity</th>
+<th class="px-8 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Category Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+</div>
+<div>
+<div class="font-semibold text-on-surface">Salario Mensual</div>
+<div class="text-xs text-on-surface-variant">Primary income stream</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black tracking-widest bg-secondary text-white">INGRESO</span>
+</td>
+<td class="px-8 py-5 text-right font-mono text-sm font-medium text-secondary">
+                                    +100%
+                                </td>
+<td class="px-8 py-5 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Category Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 rounded-lg bg-tertiary/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</div>
+<div>
+<div class="font-semibold text-on-surface">Supermercado</div>
+<div class="text-xs text-on-surface-variant">Household and groceries</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black tracking-widest bg-tertiary text-white">GASTO</span>
+</td>
+<td class="px-8 py-5 text-right font-mono text-sm font-medium text-tertiary">
+                                    -12%
+                                </td>
+<td class="px-8 py-5 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Category Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 rounded-lg bg-blue-100 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="house">house</span>
+</div>
+<div>
+<div class="font-semibold text-on-surface">Vivienda</div>
+<div class="text-xs text-on-surface-variant">Rent and services</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black tracking-widest bg-tertiary text-white">GASTO</span>
+</td>
+<td class="px-8 py-5 text-right font-mono text-sm font-medium text-on-surface-variant">
+                                    Stable
+                                </td>
+<td class="px-8 py-5 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Empty State Illustration (Hidden by default, shown when list empty) -->
+<div class="hidden flex-col items-center justify-center py-20 bg-surface-container-low rounded-xl text-center space-y-6">
+<div class="w-48 h-48 bg-surface-container-lowest rounded-full flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-6xl text-on-surface-variant/30" data-icon="inventory_2">inventory_2</span>
+</div>
+<div class="space-y-2">
+<h3 class="text-xl font-bold text-on-surface">No Categories Defined</h3>
+<p class="text-on-surface-variant max-w-sm mx-auto">Start your financial architectural journey by creating your first movement category.</p>
+</div>
+<button class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-primary-container transition-colors">
+                    + Crear Categoría
+                </button>
+</div>
+</div>
+</main>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-on-surface/20 backdrop-blur-[4px]">
+<!-- Modal Content -->
+<div class="bg-surface-container-lowest w-full max-w-md rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+<div class="p-8 space-y-8">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="text-2xl font-extrabold text-on-surface tracking-tight">New Category</h2>
+<p class="text-sm text-on-surface-variant">Define parameters for tracking.</p>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<div class="space-y-6">
+<div class="space-y-2">
+<label class="block text-xs font-black text-on-surface-variant uppercase tracking-widest">Category Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/20 placeholder:text-on-surface-variant/50" placeholder="e.g. Freelance Projects" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block text-xs font-black text-on-surface-variant uppercase tracking-widest">Movement Type</label>
+<div class="grid grid-cols-2 gap-4">
+<label class="relative cursor-pointer">
+<input checked="" class="peer sr-only" name="type" type="radio"/>
+<div class="p-4 border-2 border-surface-container-high rounded-xl text-center peer-checked:border-secondary peer-checked:bg-secondary/5 transition-all">
+<span class="material-symbols-outlined block mb-1 text-secondary" data-icon="arrow_upward">arrow_upward</span>
+<span class="block text-xs font-bold text-on-surface">INGRESO</span>
+</div>
+</label>
+<label class="relative cursor-pointer">
+<input class="peer sr-only" name="type" type="radio"/>
+<div class="p-4 border-2 border-surface-container-high rounded-xl text-center peer-checked:border-tertiary peer-checked:bg-tertiary/5 transition-all">
+<span class="material-symbols-outlined block mb-1 text-tertiary" data-icon="arrow_downward">arrow_downward</span>
+<span class="block text-xs font-bold text-on-surface">GASTO</span>
+</div>
+</label>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block text-xs font-black text-on-surface-variant uppercase tracking-widest">Select Icon</label>
+<div class="flex flex-wrap gap-2">
+<button class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="shopping_bag">shopping_bag</span>
+</button>
+<button class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="directions_car">directions_car</span>
+</button>
+<button class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="restaurant">restaurant</span>
+</button>
+<button class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="flight">flight</span>
+</button>
+<button class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="health_and_safety">health_and_safety</span>
+</button>
+</div>
+</div>
+</div>
+<div class="pt-4 flex flex-col gap-3">
+<button class="w-full py-4 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/20 hover:bg-primary-container transition-all">
+                        Create Category
+                    </button>
+<button class="w-full py-3 text-on-surface-variant font-medium hover:text-on-surface transition-colors">
+                        Cancel
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

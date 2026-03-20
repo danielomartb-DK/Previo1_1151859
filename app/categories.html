@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>NexusPay | Categorías</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              fontFamily: { sans: ['Inter', 'sans-serif'], poppins: ['Poppins', 'sans-serif'] },
+              colors: {
+                background: '#0B1120',
+                surface: '#1E293B',
+                elevated: '#334155',
+                primary: '#3B82F6',
+                success: '#10B981',
+                error: '#EF4444',
+                textmain: '#F8FAFC',
+                textmuted: '#94A3B8',
+                bordercolor: '#334155'
+              },
+              boxShadow: { 'glow-primary': '0 0 30px -10px rgba(59, 130, 246, 0.5)', 'glow-success': '0 0 30px -10px rgba(16, 185, 129, 0.5)' },
+              animation: { 'fade-in': 'fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards' },
+              keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(15px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+            }
+          }
+        }
+    </script>
+    <style>
+      body { background-color: #0B1120; color: #F8FAFC; overflow-x: hidden; }
+      .glass-card { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; transition: transform 0.3s, box-shadow 0.3s; }
+      .glass-panel { background: rgba(11, 17, 32, 0.85); backdrop-filter: blur(16px); }
+      .sidebar-item { border-radius: 12px; transition: all 0.2s; color: #94A3B8; font-weight: 500; }
+      .sidebar-item:hover, .sidebar-item.active { background: rgba(59, 130, 246, 0.1); color: #3B82F6; }
+      .btn-primary { background: #3B82F6; transition: all 0.2s; }
+      .btn-primary:hover { background: #2563EB; box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); transform: scale(1.02); }
+      .input-neo { background: #0B1120 !important; border: 1px solid #334155 !important; color: white !important; transition: all 0.3s; }
+      .input-neo:focus { border-color: #3B82F6 !important; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important; outline: none !important; }
+      .input-neo::placeholder { color: #94A3B8 !important; }
+      ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    </style>
+</head>
+<body class="flex min-h-screen">
+
+<!-- Sidebar -->
+<aside class="hidden md:flex flex-col w-64 bg-surface border-r border-bordercolor fixed h-full z-40 transform transition-transform">
+    <div class="p-6 h-20 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center shadow-glow-primary">
+            <span class="material-symbols-outlined text-white">account_balance_wallet</span>
+        </div>
+        <span class="font-poppins font-extrabold text-xl tracking-tight text-white">NexusPay</span>
+    </div>
+    
+    <div class="px-4 py-6 text-xs font-semibold text-textmuted uppercase tracking-widest">Menú Principal</div>
+    <nav class="flex-1 px-4 space-y-2">
+        <a class="sidebar-item flex items-center gap-4 px-4 py-3" href="dashboard.html">
+            <span class="material-symbols-outlined">grid_view</span> <span class="text-sm">Dashboard</span>
+        </a>
+        <a class="sidebar-item flex items-center gap-4 px-4 py-3" href="transactions.html">
+            <span class="material-symbols-outlined">sync_alt</span> <span class="text-sm">Movimientos</span>
+        </a>
+        <a class="sidebar-item active flex items-center gap-4 px-4 py-3" href="categories.html">
+            <span class="material-symbols-outlined">donut_small</span> <span class="text-sm">Categorías</span>
+        </a>
+        <a class="sidebar-item flex items-center gap-4 px-4 py-3" href="beneficiaries.html">
+            <span class="material-symbols-outlined">group</span> <span class="text-sm">Beneficiarios</span>
+        </a>
+    </nav>
+</aside>
+
+<!-- Topbar & Main -->
+<main class="flex-1 md:ml-64 w-full relative">
+    <header class="h-20 border-b border-bordercolor/50 bg-background/80 backdrop-blur-md sticky top-0 z-30 flex items-center justify-between px-6 lg:px-10">
+        <h2 class="text-xl font-poppins font-bold hidden md:block">Clasificación Financiera</h2>
+        <div class="flex items-center gap-4">
+            <button data-action="logout" class="text-sm font-semibold text-textmuted hover:text-error transition-colors px-4 py-2 flex items-center gap-2">
+                <span class="material-symbols-outlined text-xl">logout</span> Salir
+            </button>
+        </div>
+    </header>
+
+    <div class="p-6 lg:p-10 max-w-5xl mx-auto space-y-8 animate-fade-in">
+        <div id="page-alert" class="hidden p-4 mb-4 text-sm rounded-xl font-medium border" role="alert"></div>
+
+        <section class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+            <div>
+                <h1 class="text-3xl font-poppins font-extrabold tracking-tight text-white mb-2">Tus Categorías</h1>
+                <p class="text-textmuted text-sm">Organiza y etiqueta tus operaciones financieras.</p>
+            </div>
+            <button id="btn-open-modal" class="btn-primary px-6 py-3 rounded-xl font-bold text-white flex items-center gap-2 text-sm">
+                <span class="material-symbols-outlined">add</span> Nueva Categoría
+            </button>
+        </section>
+
+        <div class="glass-card overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-elevated/30 text-textmuted text-xs font-semibold uppercase tracking-widest border-b border-bordercolor/50">
+                            <th class="px-8 py-5">Nombre / Etiqueta</th>
+                            <th class="px-8 py-5 w-40">Tipo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categories-list" class="divide-y divide-bordercolor/50">
+                        <!-- JS Inject -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="empty-state" class="hidden flex-col items-center justify-center py-24 text-center">
+                <div class="w-20 h-20 rounded-full bg-elevated/30 flex items-center justify-center text-textmuted mb-4">
+                    <span class="material-symbols-outlined text-4xl">folder_off</span>
+                </div>
+                <h3 class="text-lg font-poppins font-bold text-white mb-1">Sin Organización</h3>
+                <p class="text-textmuted text-sm max-w-sm">No has definido categorías. Son esenciales para registrar transacciones.</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal -->
+<div id="category-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4 glass-panel">
+    <div class="glass-card w-full max-w-md p-8 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-blue-400"></div>
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-poppins font-bold text-white">Crear Etiqueta</h2>
+            <button id="btn-close-modal" class="text-textmuted hover:text-white transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <form id="category-form" class="space-y-6">
+            <div>
+                <label class="block text-xs font-semibold text-textmuted mb-2 uppercase tracking-wider">Nombre de la Categoría</label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-textmuted text-lg">label</span>
+                    <input id="cat-name" class="input-neo w-full pl-12 pr-4 py-3.5 rounded-xl font-medium" placeholder="Ej. Alimentación" type="text" required />
+                </div>
+            </div>
+            
+            <div>
+                <label class="block text-xs font-semibold text-textmuted mb-3 uppercase tracking-wider">Rol Contable</label>
+                <div class="grid grid-cols-2 gap-4">
+                    <label class="cursor-pointer relative group">
+                        <input class="peer sr-only" name="type" value="INGRESO" type="radio" checked />
+                        <div class="px-4 py-3 rounded-xl border border-bordercolor bg-background/50 text-center peer-checked:border-success peer-checked:bg-success/10 transition-all">
+                            <span class="material-symbols-outlined block text-success mb-1">arrow_upward</span>
+                            <span class="block text-xs font-bold text-white uppercase">Ingreso</span>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer relative group">
+                        <input class="peer sr-only" name="type" value="GASTO" type="radio" />
+                        <div class="px-4 py-3 rounded-xl border border-bordercolor bg-background/50 text-center peer-checked:border-error peer-checked:bg-error/10 transition-all">
+                            <span class="material-symbols-outlined block text-error mb-1">arrow_downward</span>
+                            <span class="block text-xs font-bold text-white uppercase">Gasto</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="pt-2">
+                <button type="submit" class="btn-primary w-full py-4 rounded-xl font-bold text-white text-sm">Guardar Etiqueta</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="module" src="js/workspace.js"></script>
+<script type="module" src="js/categories.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>NexusPay | Beneficiarios</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              fontFamily: { sans: ['Inter', 'sans-serif'], poppins: ['Poppins', 'sans-serif'] },
+              colors: {
+                background: '#0B1120',
+                surface: '#1E293B',
+                elevated: '#334155',
+                primary: '#3B82F6',
+                success: '#10B981',
+                error: '#EF4444',
+                textmain: '#F8FAFC',
+                textmuted: '#94A3B8',
+                bordercolor: '#334155'
+              },
+              boxShadow: { 'glow-primary': '0 0 30px -10px rgba(59, 130, 246, 0.5)' },
+              animation: { 'fade-in': 'fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards' },
+              keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(15px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+            }
+          }
+        }
+    </script>
+    <style>
+      body { background-color: #0B1120; color: #F8FAFC; overflow-x: hidden; }
+      .glass-card { background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; transition: transform 0.3s, box-shadow 0.3s; }
+      .glass-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.6); border-color: rgba(59, 130, 246, 0.3); }
+      .sidebar-item { border-radius: 12px; transition: all 0.2s; color: #94A3B8; font-weight: 500; }
+      .sidebar-item:hover, .sidebar-item.active { background: rgba(59, 130, 246, 0.1); color: #3B82F6; }
+      .btn-primary { background: #3B82F6; transition: all 0.2s; }
+      .btn-primary:hover { background: #2563EB; box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); transform: scale(1.02); }
+      .input-neo { background: #0B1120 !important; border: 1px solid #334155 !important; color: white !important; transition: all 0.3s; }
+      .input-neo:focus { border-color: #3B82F6 !important; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important; outline: none !important; }
+      .input-neo::placeholder { color: #94A3B8 !important; }
+      ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    </style>
+</head>
+<body class="flex min-h-screen">
+
+<aside class="hidden md:flex flex-col w-64 bg-surface border-r border-bordercolor fixed h-full z-40">
+    <div class="p-6 h-20 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center shadow-glow-primary">
+            <span class="material-symbols-outlined text-white">account_balance_wallet</span>
+        </div>
+        <span class="font-poppins font-extrabold text-xl tracking-tight text-white">NexusPay</span>
+    </div>
+    <div class="px-4 py-6 text-xs font-semibold text-textmuted uppercase tracking-widest">Menú Principal</div>
+    <nav class="flex-1 px-4 space-y-2">
+        <a class="sidebar-item flex items-center gap-4 px-4 py-3" href="dashboard.html">
+            <span class="material-symbols-outlined">grid_view</span> <span class="text-sm">Dashboard</span>
+        </a>
+        <a class="sidebar-item flex items-center gap-4 px-4 py-3" href="transactions.html">
+            <span class="material-symbols-outlined">sync_alt</span> <span class="text-sm">Movimientos</span>
+        </a>
+        <a class="sidebar-item flex items-center gap-4 px-4 py-3" href="categories.html">
+            <span class="material-symbols-outlined">donut_small</span> <span class="text-sm">Categorías</span>
+        </a>
+        <a class="sidebar-item active flex items-center gap-4 px-4 py-3" href="beneficiaries.html">
+            <span class="material-symbols-outlined">group</span> <span class="text-sm">Beneficiarios</span>
+        </a>
+    </nav>
+</aside>
+
+<main class="flex-1 md:ml-64 w-full relative">
+    <header class="h-20 border-b border-bordercolor/50 bg-background/80 backdrop-blur-md sticky top-0 z-30 flex items-center justify-between px-6 lg:px-10">
+        <h2 class="text-xl font-poppins font-bold hidden md:block">Red de Destinatarios</h2>
+        <button data-action="logout" class="text-sm font-semibold text-textmuted hover:text-error transition-colors px-4 py-2 flex items-center gap-2">
+            <span class="material-symbols-outlined text-xl">logout</span> Salir
+        </button>
+    </header>
+
+    <div class="p-6 lg:p-10 max-w-7xl mx-auto space-y-8 animate-fade-in">
+        <div id="page-alert" class="hidden p-4 mb-4 text-sm rounded-xl font-medium border" role="alert"></div>
+
+        <section class="mb-8">
+            <h1 class="text-3xl font-poppins font-extrabold tracking-tight text-white mb-2">Beneficiarios</h1>
+            <p class="text-textmuted text-sm max-w-lg">Gestiona a los individuos y entidades a quienes diriges o desde quienes recibes ingresos.</p>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            <!-- Grid Cuentas -->
+            <div class="lg:col-span-8">
+                <div id="beneficiaries-list" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <!-- Cards via JS -->
+                </div>
+                <!-- Empty State -->
+                <div id="empty-state" class="hidden py-20 text-center glass-card border-dashed">
+                    <span class="material-symbols-outlined text-5xl text-textmuted mb-4 opacity-50">recent_actors</span>
+                    <h3 class="text-lg font-poppins font-bold text-white mb-1">Tu Agenda está vacía</h3>
+                    <p class="text-textmuted text-sm">Agrega un destinatario desde el panel derecho.</p>
+                </div>
+            </div>
+
+            <!-- Panel Lateral Alta -->
+            <div class="lg:col-span-4">
+                <div class="glass-card p-8 sticky top-28 bg-surface/50">
+                    <div class="flex items-center gap-3 mb-8 pb-4 border-b border-bordercolor">
+                        <span class="material-symbols-outlined text-primary text-2xl">person_add</span>
+                        <h2 class="text-lg font-poppins font-bold text-white">Nuevo Perfil</h2>
+                    </div>
+                    
+                    <form id="beneficiary-form" class="space-y-6">
+                        <div>
+                            <label class="block text-xs font-semibold text-textmuted mb-2 uppercase tracking-wider">Nombre del Titular</label>
+                            <input id="ben-name" class="input-neo w-full px-4 py-3.5 rounded-xl font-medium" placeholder="Ej. Stripe Inc." type="text" required />
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-textmuted mb-2 uppercase tracking-wider">Anotaciones Adicionales</label>
+                            <textarea id="ben-desc" class="input-neo w-full px-4 py-3.5 rounded-xl font-medium resize-none" placeholder="Cuenta empresarial principal..." rows="3"></textarea>
+                        </div>
+                        <div class="pt-4">
+                            <button type="submit" class="btn-primary w-full py-4 rounded-xl font-bold text-white text-sm">Registrar en Agenda</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script type="module" src="js/workspace.js"></script>
+<script type="module" src="js/beneficiaries.js"></script>
+</body>
+</html>

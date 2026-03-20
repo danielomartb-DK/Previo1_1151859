@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Movements Management | Financial Architect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error-container": "#93000a",
+              "tertiary": "#851800",
+              "outline": "#737685",
+              "secondary-container": "#82f9be",
+              "primary-fixed": "#dae2ff",
+              "error-container": "#ffdad6",
+              "on-tertiary-container": "#ffc6b9",
+              "surface-dim": "#d9dadc",
+              "tertiary-fixed": "#ffdad2",
+              "on-secondary-container": "#00734c",
+              "on-secondary": "#ffffff",
+              "tertiary-fixed-dim": "#ffb4a3",
+              "surface-container-high": "#e7e8ea",
+              "on-primary-container": "#c4d2ff",
+              "on-primary": "#ffffff",
+              "secondary-fixed": "#82f9be",
+              "on-tertiary": "#ffffff",
+              "surface-container": "#edeef0",
+              "surface-tint": "#0c56d0",
+              "on-tertiary-fixed": "#3d0600",
+              "on-primary-fixed-variant": "#0040a2",
+              "inverse-surface": "#2e3132",
+              "surface-bright": "#f8f9fb",
+              "surface-variant": "#e1e2e4",
+              "inverse-primary": "#b2c5ff",
+              "surface-container-lowest": "#ffffff",
+              "background": "#f8f9fb",
+              "on-background": "#191c1e",
+              "on-surface": "#191c1e",
+              "primary-fixed-dim": "#b2c5ff",
+              "surface-container-highest": "#e1e2e4",
+              "on-secondary-fixed-variant": "#005235",
+              "on-tertiary-fixed-variant": "#8b1a00",
+              "outline-variant": "#c3c6d6",
+              "primary": "#003d9b",
+              "secondary-fixed-dim": "#65dca4",
+              "on-surface-variant": "#434654",
+              "on-primary-fixed": "#001848",
+              "inverse-on-surface": "#f0f1f3",
+              "surface-container-low": "#f3f4f6",
+              "secondary": "#006c47",
+              "primary-container": "#0052cc",
+              "tertiary-container": "#b02300",
+              "on-secondary-fixed": "#002113",
+              "surface": "#f8f9fb",
+              "on-error": "#ffffff",
+              "error": "#ba1a1a"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center w-full px-6 py-3">
+<div class="flex items-center gap-8">
+<span class="text-xl font-extrabold text-blue-800 dark:text-blue-300 font-manrope font-bold tracking-tight">Financial Architect</span>
+<div class="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full w-96">
+<span class="material-symbols-outlined text-outline mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full" placeholder="Search movements..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-3 ml-2 border-l border-outline-variant pl-4">
+<img alt="User profile" class="w-8 h-8 rounded-full" data-alt="User profile avatar circle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIT9rsTDjO8LAe9ZedpUYCnI-ARLQW5pcz4aG3q0B_V7ZA_Z5TFPl0xReamGjAtaEQ_MBQEdvAk9CvZgEdFdDjU24ZQ2UwabqkxHXOgrBvKYPYAOgmM5yaUkbA_ipDytb_-xgV3aeDLneJsFuRqzj6u0fazD-cggi078P4rpXmwfGZ5guaT11aMHwdwuSEcCk9_sFEsx1PLAZIJbBxqkl5RM0bRXAcAZI-8PgnVC-WhRXfzwB31DBLZPa3MfqsT1a6lHmZOXQSWyI"/>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">logout</span>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed left-0 h-full w-64 bg-slate-50 dark:bg-slate-950 flex flex-col h-screen py-8 border-r border-slate-200/50 dark:border-slate-800/50 mt-14 hidden md:flex">
+<div class="px-6 mb-8">
+<h2 class="text-lg font-black text-blue-900 dark:text-blue-200 font-manrope">The Curator</h2>
+<p class="text-xs text-on-surface-variant font-medium">Premium Finance</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center py-3 text-slate-600 dark:text-slate-400 pl-5 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out font-manrope text-sm font-medium" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center py-3 text-slate-600 dark:text-slate-400 pl-5 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out font-manrope text-sm font-medium" href="#">
+<span class="material-symbols-outlined mr-3">category</span>
+                Categories
+            </a>
+<a class="flex items-center py-3 text-slate-600 dark:text-slate-400 pl-5 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out font-manrope text-sm font-medium" href="#">
+<span class="material-symbols-outlined mr-3">group</span>
+                Beneficiaries
+            </a>
+<!-- Active Navigation -->
+<a class="flex items-center py-3 text-blue-700 dark:text-blue-400 border-l-4 border-blue-700 dark:border-blue-400 pl-4 bg-blue-50/50 dark:bg-blue-900/20 transition-all duration-300 ease-in-out font-manrope text-sm font-medium" href="#">
+<span class="material-symbols-outlined mr-3">swap_horiz</span>
+                Movements
+            </a>
+<a class="flex items-center py-3 text-slate-600 dark:text-slate-400 pl-5 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out font-manrope text-sm font-medium" href="#">
+<span class="material-symbols-outlined mr-3">workspaces</span>
+                Workspace
+            </a>
+</nav>
+<div class="px-5 mt-auto mb-4">
+<button class="w-full py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl font-bold shadow-lg shadow-primary/20 active:scale-95 transition-all text-sm">
+                + New Transaction
+            </button>
+</div>
+<div class="border-t border-slate-200/50 dark:border-slate-800/50 pt-4 space-y-1">
+<a class="flex items-center py-2 text-slate-600 dark:text-slate-400 pl-5 hover:text-blue-600 transition-all font-manrope text-xs font-medium" href="#">
+<span class="material-symbols-outlined mr-3 text-lg">settings</span>
+                Settings
+            </a>
+<a class="flex items-center py-2 text-slate-600 dark:text-slate-400 pl-5 hover:text-blue-600 transition-all font-manrope text-xs font-medium" href="#">
+<span class="material-symbols-outlined mr-3 text-lg">help</span>
+                Help
+            </a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-64 pt-24 px-4 md:px-10 pb-12">
+<!-- Header & Action Row -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+<div>
+<h1 class="text-4xl font-extrabold font-headline tracking-tight text-on-surface mb-2">Movements</h1>
+<p class="text-on-surface-variant font-medium">Analyze and manage your latest financial transactions.</p>
+</div>
+<button class="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl font-bold hover:shadow-xl hover:shadow-primary/25 transition-all active:scale-95">
+<span class="material-symbols-outlined">add_circle</span>
+<span>Registrar Movimiento</span>
+</button>
+</div>
+<!-- Filters Section (No-Line Principle) -->
+<div class="bg-surface-container-low p-6 rounded-xl mb-8 flex flex-col md:flex-row gap-4 items-center">
+<div class="relative w-full md:w-72">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-surface-container-lowest border-none rounded-lg focus:ring-2 focus:ring-primary/20 text-sm" placeholder="Filter by name..." type="text"/>
+</div>
+<div class="flex items-center gap-4 w-full md:w-auto">
+<div class="flex flex-col gap-1 w-full">
+<select class="bg-surface-container-lowest border-none rounded-lg py-2.5 px-4 text-sm font-medium focus:ring-2 focus:ring-primary/20">
+<option>All Categories</option>
+<option>Housing</option>
+<option>Lifestyle</option>
+<option>Income</option>
+</select>
+</div>
+<div class="flex flex-col gap-1 w-full">
+<input class="bg-surface-container-lowest border-none rounded-lg py-2.5 px-4 text-sm font-medium focus:ring-2 focus:ring-primary/20" type="date"/>
+</div>
+</div>
+<button class="ml-auto flex items-center gap-2 text-primary font-bold text-sm hover:underline px-2">
+<span class="material-symbols-outlined text-lg">tune</span>
+                Advanced Filters
+            </button>
+</div>
+<!-- Movements Table (Bento Style Card) -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant font-headline">Status</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant font-headline">Beneficiary / Concept</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant font-headline">Category</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant font-headline">Date</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant font-headline text-right">Amount</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<span class="flex items-center gap-2 text-secondary font-semibold text-xs py-1 px-3 bg-secondary-container/30 rounded-full w-fit">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">arrow_downward</span>
+                                    Income
+                                </span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary font-bold">SM</div>
+<div>
+<p class="font-bold text-on-surface">Stripe Monthly Payout</p>
+<p class="text-xs text-on-surface-variant">Transaction ID: 88219</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm font-medium text-on-surface-variant">Business Sales</span>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm text-on-surface-variant">Oct 24, 2023</span>
+</td>
+<td class="px-6 py-5 text-right">
+<span class="text-base font-bold text-secondary font-headline">+$4,250.00</span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<span class="flex items-center gap-2 text-tertiary font-semibold text-xs py-1 px-3 bg-tertiary-container/10 rounded-full w-fit">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">arrow_upward</span>
+                                    Expense
+                                </span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary font-bold">AM</div>
+<div>
+<p class="font-bold text-on-surface">Amazon Web Services</p>
+<p class="text-xs text-on-surface-variant">Cloud Infrastructure</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm font-medium text-on-surface-variant">Technology</span>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm text-on-surface-variant">Oct 22, 2023</span>
+</td>
+<td class="px-6 py-5 text-right">
+<span class="text-base font-bold text-tertiary font-headline">-$890.12</span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<span class="flex items-center gap-2 text-tertiary font-semibold text-xs py-1 px-3 bg-tertiary-container/10 rounded-full w-fit">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">arrow_upward</span>
+                                    Expense
+                                </span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary font-bold">RE</div>
+<div>
+<p class="font-bold text-on-surface">Regency Estates</p>
+<p class="text-xs text-on-surface-variant">Office Rent - Nov</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm font-medium text-on-surface-variant">Housing</span>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm text-on-surface-variant">Oct 20, 2023</span>
+</td>
+<td class="px-6 py-5 text-right">
+<span class="text-base font-bold text-tertiary font-headline">-$2,400.00</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<span class="flex items-center gap-2 text-secondary font-semibold text-xs py-1 px-3 bg-secondary-container/30 rounded-full w-fit">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">arrow_downward</span>
+                                    Income
+                                </span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary font-bold">UP</div>
+<div>
+<p class="font-bold text-on-surface">Upwork Escrow</p>
+<p class="text-xs text-on-surface-variant">UI Project Milestone</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm font-medium text-on-surface-variant">Freelance</span>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm text-on-surface-variant">Oct 18, 2023</span>
+</td>
+<td class="px-6 py-5 text-right">
+<span class="text-base font-bold text-secondary font-headline">+$1,150.00</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 flex items-center justify-between bg-surface-container-low/50">
+<span class="text-sm text-on-surface-variant">Showing 4 of 128 movements</span>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-surface-container-lowest border border-outline-variant/20 rounded-lg text-sm font-bold active:scale-95 transition-all disabled:opacity-50">Previous</button>
+<button class="px-4 py-2 bg-surface-container-lowest border border-outline-variant/20 rounded-lg text-sm font-bold active:scale-95 transition-all">Next</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Modal Placeholder (Overlay) -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-on-surface/20 backdrop-blur-[4px]"></div>
+<!-- Modal Content -->
+<div class="relative bg-surface-container-lowest w-full max-w-xl rounded-xl shadow-[0px_12px_32px_rgba(25,28,30,0.1)] overflow-hidden">
+<div class="px-10 py-8">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-2xl font-extrabold font-headline tracking-tight">New Movement</h3>
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<form class="space-y-6">
+<div class="grid grid-cols-2 gap-6">
+<div class="col-span-2">
+<label class="block text-sm font-bold text-on-surface mb-2">Amount</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-primary">$</span>
+<input class="w-full pl-8 pr-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 text-lg font-bold" placeholder="0.00" step="0.01" type="number"/>
+</div>
+</div>
+<div class="col-span-2 md:col-span-1">
+<label class="block text-sm font-bold text-on-surface mb-2">Category</label>
+<select class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 text-sm">
+<option>Select category</option>
+<option>Housing</option>
+<option>Technology</option>
+<option>Income</option>
+<option>Food &amp; Dining</option>
+</select>
+</div>
+<div class="col-span-2 md:col-span-1">
+<label class="block text-sm font-bold text-on-surface mb-2">Date</label>
+<input class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 text-sm" type="date"/>
+</div>
+<div class="col-span-2">
+<label class="block text-sm font-bold text-on-surface mb-2">Beneficiary / Destination</label>
+<input class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 text-sm" placeholder="e.g. Amazon, Landlord, etc." type="text"/>
+</div>
+<div class="col-span-2 flex gap-4 mt-4">
+<button class="flex-1 py-3 px-6 bg-surface-container-high text-on-surface font-bold rounded-xl active:scale-95 transition-all" type="button">Cancel</button>
+<button class="flex-1 py-3 px-6 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-xl shadow-lg shadow-primary/20 active:scale-95 transition-all" type="submit">Create Movement</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- Responsive Bottom Nav (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full bg-white/90 backdrop-blur-lg border-t border-slate-100 flex justify-around items-center py-3 z-50">
+<a class="flex flex-col items-center text-slate-400" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">swap_horiz</span>
+<span class="text-[10px] font-bold">Movements</span>
+</a>
+<a class="flex flex-col items-center text-slate-400" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-bold">Contacts</span>
+</a>
+<a class="flex flex-col items-center text-slate-400" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold">Settings</span>
+</a>
+</nav>
+</body></html>

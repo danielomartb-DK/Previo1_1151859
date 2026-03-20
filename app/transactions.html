@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>NexusPay | Historial</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              fontFamily: { sans: ['Inter', 'sans-serif'], poppins: ['Poppins', 'sans-serif'] },
+              colors: {
+                background: '#0B1120',
+                surface: '#1E293B',
+                elevated: '#334155',
+                primary: '#3B82F6',
+                success: '#10B981',
+                error: '#EF4444',
+                textmain: '#F8FAFC',
+                textmuted: '#94A3B8',
+                bordercolor: '#334155'
+              },
+              boxShadow: { 'glow-primary': '0 0 30px -10px rgba(59, 130, 246, 0.5)' },
+              animation: { 'fade-in': 'fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards' },
+              keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(15px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+            }
+          }
+        }
+    </script>
+    <style>
+      body { background-color: #0B1120; color: #F8FAFC; overflow-x: hidden; }
+      .glass-card { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; transition: transform 0.3s, box-shadow 0.3s; }
+      .glass-panel { background: rgba(11, 17, 32, 0.85); backdrop-filter: blur(16px); }
+      .sidebar-item { border-radius: 12px; transition: all 0.2s; color: #94A3B8; font-weight: 500; }
+      .sidebar-item:hover, .sidebar-item.active { background: rgba(59, 130, 246, 0.1); color: #3B82F6; }
+      .btn-primary { background: #3B82F6; transition: all 0.2s; }
+      .btn-primary:hover { background: #2563EB; box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); transform: scale(1.02); }
+      .input-neo { background: #0B1120 !important; border: 1px solid #334155 !important; color: white !important; transition: all 0.3s; }
+      .input-neo:focus { border-color: #3B82F6 !important; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important; outline: none !important; }
+      .input-neo::placeholder { color: #94A3B8 !important; }
+      ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+      
+      /* Toast Animation Fix */
+      #page-alert:not(.hidden) { animation: slideInRight 0.3s forwards; }
+      @keyframes slideInRight { from{ opacity:0; transform:translateX(50px) } to{ opacity:1; transform:translateX(0) } }
+    </style>
+</head>
+<body class="flex min-h-screen">
+
+<aside class="hidden md:flex flex-col w-64 bg-surface border-r border-bordercolor fixed h-full z-40">
+    <div class="p-6 h-20 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center shadow-glow-primary">
+            <span class="material-symbols-outlined text-white">account_balance_wallet</span>
+        </div>
+        <span class="font-poppins font-extrabold text-xl tracking-tight text-white">NexusPay</span>
+    </div>
+    <div class="px-4 py-6 text-xs font-semibold text-textmuted uppercase tracking-widest">Menú Principal</div>
+    <nav class="flex-1 px-4 space-y-2">
+        <a class="sidebar-item flex items-center gap-4 px-4 py-3" href="dashboard.html">
+            <span class="material-symbols-outlined">grid_view</span> <span class="text-sm">Dashboard</span>
+        </a>
+        <a class="sidebar-item active flex items-center gap-4 px-4 py-3" href="transactions.html">
+            <span class="material-symbols-outlined">sync_alt</span> <span class="text-sm">Movimientos</span>
+        </a>
+        <a class="sidebar-item flex items-center gap-4 px-4 py-3" href="categories.html">
+            <span class="material-symbols-outlined">donut_small</span> <span class="text-sm">Categorías</span>
+        </a>
+        <a class="sidebar-item flex items-center gap-4 px-4 py-3" href="beneficiaries.html">
+            <span class="material-symbols-outlined">group</span> <span class="text-sm">Beneficiarios</span>
+        </a>
+    </nav>
+</aside>
+
+<main class="flex-1 md:ml-64 w-full relative">
+    <header class="h-20 border-b border-bordercolor/50 bg-background/80 backdrop-blur-md sticky top-0 z-30 flex items-center justify-between px-6 lg:px-10">
+        <h2 class="text-xl font-poppins font-bold hidden md:block">Historial de Operaciones</h2>
+        <button data-action="logout" class="text-sm font-semibold text-textmuted hover:text-error transition-colors px-4 py-2 flex items-center gap-2">
+            <span class="material-symbols-outlined text-xl">logout</span> Salir
+        </button>
+    </header>
+
+    <div class="p-6 lg:p-10 max-w-7xl mx-auto space-y-8 animate-fade-in relative z-10">
+        
+        <!-- Toast global for transactions -->
+        <div id="page-alert" class="hidden fixed bottom-6 right-6 z-50 p-5 rounded-2xl font-medium border border-bordercolor/50 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-xl bg-surface/90 max-w-sm w-full" role="alert"></div>
+
+        <section class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+            <div>
+                <h1 class="text-4xl font-poppins font-extrabold tracking-tight text-white mb-2">Movimientos</h1>
+                <p class="text-textmuted text-sm max-w-lg">Registro y conciliación profunda de todas tus actividades.</p>
+            </div>
+            <button id="btn-open-modal" class="btn-primary flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-white text-sm shadow-[0_8px_20px_-5px_rgba(59,130,246,0.3)] hover:scale-105">
+                <span class="material-symbols-outlined">add_circle</span> Transferir
+            </button>
+        </section>
+
+        <!-- Filters Line -->
+        <div class="glass-card p-5 flex flex-col md:flex-row gap-4 items-center mb-8">
+            <div class="flex items-center gap-4 w-full text-sm">
+                <select id="filter-category" class="input-neo w-full md:w-1/3 py-3 px-4 rounded-xl">
+                    <option value="">Todas las Categorías</option>
+                </select>
+                <input id="filter-date" class="input-neo w-full md:w-1/3 py-3 px-4 rounded-xl" type="date"/>
+                <button id="btn-filter" class="btn-primary w-full md:w-auto px-6 py-3 rounded-xl font-bold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">filter_alt</span> Filtrar
+                </button>
+                <button id="btn-clear-filter" class="w-full md:w-auto px-5 py-3 bg-surface hover:bg-elevated border border-bordercolor text-textmuted rounded-xl font-bold transition-colors">
+                    Limpiar
+                </button>
+            </div>
+        </div>
+
+        <div class="glass-card overflow-hidden">
+            <div class="overflow-x-auto min-h-[400px]">
+                <table class="w-full text-left border-collapse min-w-[700px]">
+                    <thead>
+                        <tr class="bg-elevated/30 text-textmuted text-xs font-semibold uppercase tracking-widest border-b border-bordercolor/50">
+                            <th class="px-8 py-5">Movimiento</th>
+                            <th class="px-8 py-5">Destino / Origen</th>
+                            <th class="px-8 py-5">Categorización</th>
+                            <th class="px-8 py-5 text-right w-40">Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactions-list" class="divide-y divide-bordercolor/50">
+                        <!-- Llenado x JS -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="empty-state" class="hidden flex-col items-center justify-center py-24 text-center">
+                <div class="w-20 h-20 rounded-full bg-elevated/30 flex items-center justify-center text-textmuted mb-4 opacity-50">
+                    <span class="material-symbols-outlined text-4xl">receipt_long</span>
+                </div>
+                <h3 class="text-lg font-poppins font-bold text-white mb-1">Cero Movimientos</h3>
+                <p class="text-textmuted text-sm max-w-sm">No has registrado transferencias. ¡Empieza a generar tu historial!</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal Registro -->
+<div id="transaction-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 glass-panel">
+    <div class="glass-card w-full max-w-xl p-8 md:p-10 relative overflow-hidden shadow-2xl">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        
+        <div class="flex items-center justify-between mb-8 relative z-10">
+            <div>
+                <h3 class="text-2xl font-poppins font-bold text-white tracking-tight">Autorizar Operación</h3>
+                <p class="text-textmuted text-xs mt-1 uppercase tracking-widest font-semibold">Transferencia Segura</p>
+            </div>
+            <button id="btn-close-modal" class="text-textmuted hover:text-white bg-elevated/50 p-2 rounded-full transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <form id="transaction-form" class="space-y-6 relative z-10">
+            <div id="modal-alert" class="hidden p-4 text-sm rounded-xl font-medium border border-error/50 bg-error/10 text-error"></div>
+
+            <div class="grid grid-cols-2 gap-5">
+                <div class="col-span-2">
+                    <label class="block text-xs font-semibold text-textmuted mb-2 uppercase tracking-wider">Monto Solicitado</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-primary text-xl">$</span>
+                        <input id="t-amount" class="input-neo w-full pl-10 pr-4 py-4 rounded-xl text-2xl font-poppins font-bold" min="0.01" step="0.01" type="number" required />
+                    </div>
+                </div>
+
+                <div class="col-span-2 md:col-span-1">
+                    <label class="block text-xs font-semibold text-textmuted mb-2 uppercase tracking-wider">Concepto Táctico</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-textmuted text-sm">donut_small</span>
+                        <select id="t-category" class="input-neo w-full pl-10 pr-4 py-3.5 rounded-xl text-sm" required>
+                            <option value="">Cargando...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-span-2 md:col-span-1">
+                    <label class="block text-xs font-semibold text-textmuted mb-2 uppercase tracking-wider">Entidad Destino</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-textmuted text-sm">group</span>
+                        <select id="t-beneficiary" class="input-neo w-full pl-10 pr-4 py-3.5 rounded-xl text-sm" required>
+                            <option value="">Cargando...</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-span-2 md:col-span-1">
+                    <label class="block text-xs font-semibold text-textmuted mb-2 uppercase tracking-wider">Fecha Autorizada</label>
+                    <div class="relative">
+                        <input id="t-date" class="input-neo w-full px-4 py-3.5 rounded-xl text-sm" type="date" required />
+                    </div>
+                </div>
+
+                <div class="col-span-2 md:col-span-1">
+                    <label class="block text-xs font-semibold text-textmuted mb-2 uppercase tracking-wider">Concepto Literal</label>
+                    <input id="t-desc" class="input-neo w-full px-4 py-3.5 rounded-xl text-sm" placeholder="Abreviatura para recibo" type="text" required />
+                </div>
+
+                <div class="col-span-2 pt-6">
+                    <button id="btn-submit" class="btn-primary w-full py-4 rounded-xl text-white font-bold text-sm shadow-[0_8px_20px_-5px_rgba(59,130,246,0.5)]" type="submit">
+                        Confirmar y Procesar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="module" src="js/workspace.js"></script>
+<script type="module" src="js/transactions.js"></script>
+</body>
+</html>

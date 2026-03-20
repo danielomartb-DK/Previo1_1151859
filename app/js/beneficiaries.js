@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function loadBeneficiaries() {
-        const res = await api.get('/beneficiarios');
+        const res = await api.get('/beneficiarios?workspaceId=' + workspaceId);
         beneficiariesList.innerHTML = '';
         
         if (res.success && Array.isArray(res.data)) {

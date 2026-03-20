@@ -95,9 +95,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function loadDependenciesAndData() {
         const [catRes, benRes, transRes] = await Promise.all([
-            api.get('/categorias'),
-            api.get('/beneficiarios'),
-            api.get('/transactions')
+            api.get('/categorias?workspaceId=' + workspaceId),
+            api.get('/beneficiarios?workspaceId=' + workspaceId),
+            api.get('/transactions?workspaceId=' + workspaceId)
         ]);
 
         if (catRes.success) categoriesList = catRes.data.filter(c => c.workspaceId == workspaceId);

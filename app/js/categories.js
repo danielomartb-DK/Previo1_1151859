@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function loadCategories() {
-        const res = await api.get('/categorias');
+        const res = await api.get('/categorias?workspaceId=' + workspaceId);
         categoriesList.innerHTML = '';
         
         if (res.success && Array.isArray(res.data)) {

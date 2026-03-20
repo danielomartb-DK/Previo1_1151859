@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         btnSubmit.textContent = 'Trasnferiendo...';
 
         const payload = { monto, categoriaId, beneficiarioId, tipo, fecha, descripcion, workspaceId: Number(workspaceId) };
-        const res = await api.post('/transactions', { ...payload, medioPago: 'TRANSFERENCIA' });
+        const res = await api.post('/transactions', { ...payload, medioPago: 'EFECTIVO' });
 
         btnSubmit.disabled = false;
         btnSubmit.textContent = originalText;

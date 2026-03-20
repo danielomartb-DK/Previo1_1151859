@@ -64,8 +64,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             : `<span class="flex items-center gap-1.5 text-textmuted font-medium text-xs"><span class="material-symbols-outlined text-[16px]">arrow_upward</span>Gasto</span>`;
             
         const amountEl = isIngreso
-            ? `<span class="text-[15px] font-semibold text-emerald-400 tracking-tight">+$${Number(t.monto).toFixed(2)}</span>`
-            : `<span class="text-[15px] font-semibold text-white tracking-tight">-$${Number(t.monto).toFixed(2)}</span>`;
+            ? `<span class="text-[15px] font-semibold text-emerald-400 tracking-tight tabular-nums">+$${Number(t.monto).toFixed(2)}</span>`
+            : `<span class="text-[15px] font-semibold text-white tracking-tight tabular-nums">-$${Number(t.monto).toFixed(2)}</span>`;
 
         return `
         <tr class="hover:bg-elevated/40 transition-colors group">

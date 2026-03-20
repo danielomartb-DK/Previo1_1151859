@@ -27,6 +27,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+function animateValue(elementId, endValue, duration, prefix = "$") {
+    const obj = document.getElementById(elementId);
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        // Easing function outExpo
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const easeOutProgress = 1 - Math.pow(1 - progress, 3);
+        const currentVal = easeOutProgress * endValue;
+        
+        // Tabular nums para que no salte locamente al animarse
+        obj.innerHTML = `${prefix}${Number(currentVal).toFixed(2)}`;
+        obj.classList.add('tabular-nums'); // Inyectar clase dinámicamente
+        
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        } else {
+            obj.innerHTML = `${prefix}${Number(endValue).toFixed(2)}`;
+        }
+    };
+    window.requestAnimationFrame(step);
+}
+
 function calcularResumen(transacciones) {
     let totalIngresos = 0;
     let totalGastos = 0;
@@ -49,7 +72,7 @@ function calcularResumen(transacciones) {
         currency: 'MXN'
     });
 
-    document.getElementById('stat-income').textContent = formatter.format(totalIngresos);
-    document.getElementById('stat-expense').textContent = formatter.format(totalGastos);
-    document.getElementById('stat-balance').textContent = formatter.format(balance);
+    animateValue('stat-income', totalIngresos, 1200, "+$");
+    animateValue('stat-expense', totalGastos, 1200, "-$");
+    animateValue('stat-balance', balance, 1500, "$");
 }

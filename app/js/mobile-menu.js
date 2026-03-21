@@ -14,7 +14,7 @@
                 display: flex !important;
                 transform: translateX(-100%);
                 transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-                z-index: 9900;
+                z-index: 9900 !important;
                 box-shadow: 4px 0 30px rgba(0,0,0,0.6);
             }
             aside.mobile-open {
